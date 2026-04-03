@@ -1,47 +1,45 @@
-function Person(name) {
+function Hero(name, level){
   this.name = name;
+  this.level = level;
+
+}
+Hero.prototype.greet = function () {
+  return `${this.name} says hello.`;
+}
+const hero1 = new Hero("LiLQD", 36);
+console.log(hero1.greet());
+
+function Warrior(name, level, weapon){
+  Hero.call(this, name, level);
+  this.weapon = weapon;
 }
 
-Person.prototype.sayName = function() {
-  console.log(`Hello, I'm ${this.name}!`);
-};
-
-function Player(name, marker) {
-  this.name = name;
-  this.marker = marker;
+function Healer(name, level, spell){
+  Hero.call(this, name, level);
+  this.spell = spell;
+}
+Object.setPrototypeOf(Warrior.prototype, Hero.prototype);
+Object.setPrototypeOf(Healer.prototype, Hero.prototype);
+Warrior.prototype.attack = function(){
+  return (`${this.name} attacks with ${this.weapon}`);
 }
 
-Player.prototype.getMarker = function() {
-  console.log(`My marker is "${this.marker}"`);
-};
+Healer.prototype.heal = function(){
+  return (`${this.name} heals with ${this.spell}`);
+}
 
-Object.getPrototypeOf(Player.prototype); // returns Object.prototype
+const warrior1 = new Warrior("Alex", 100, "Scyther");
+const healer1 = new Healer("Lana", 70, "Holy Spray");
 
-// Now make `Player` objects inherit from `Person`
-Object.setPrototypeOf(Player.prototype, Person.prototype);
-Object.getPrototypeOf(Player.prototype); // returns Person.prototype
+console.log(warrior1.greet());
+console.log(warrior1.attack());
+console.log(healer1.heal());
 
-const player1 = new Player("steve", "X");
-const player2 = new Player("also steve", "O");
 
-player1.sayName(); // Hello, I'm steve!
-player2.sayName(); // Hello, I'm also steve!
 
-player1.getMarker(); // My marker is "X"
-player2.getMarker(); // My marker is "O"
 
-// function Book(title, author, pages, read){
-//     this.title = title;
-//     this.author = author;
-//     this.pages = pages;
-//     Book.read = read;
-//     this.info = function(){
-//         if(!read){
-//             return `${this.title} by ${this.author}, ${this.pages} pages, not read yet`;
-//         }
-//         else return `${this.title} by ${this.author}, ${this.pages} pages, read`;
-//     }
-// }
 
-// const book = new Book('The Hobbit', 'J.R.R. Tolkien', 295, true);
-// console.log(book.info());
+
+
+
+
